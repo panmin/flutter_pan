@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pan/common/utils/toast.dart';
 
 /// 主页
 /// 相当于Android里面的MainActivity
@@ -14,6 +15,8 @@ class _MainPageState extends State<MainPage> {
   late List<BottomNavigationBarItem> listItem;
 
   int _currentIndex = 0;
+
+  DateTime? _dateTime;
 
   @override
   void initState() {
@@ -33,49 +36,66 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          PageView(
-            controller: _pageController,
-            children: [
-              Container(
-                color: Colors.blue,
-              ),
-              Container(
-                color: Colors.yellow,
-              ),
-              Container(
-                color: Colors.green,
-              ),
-              Container(
-                color: Colors.red,
-              ),
-            ],
-            physics: NeverScrollableScrollPhysics(),
-          ),
-          Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: BottomNavigationBar(
-                currentIndex: _currentIndex,
-                items: listItem,
-                backgroundColor: Colors.white,
-                selectedItemColor: Colors.black,
-                unselectedItemColor: Colors.grey,
-                type: BottomNavigationBarType.fixed,
-                selectedFontSize: 14,
-                unselectedFontSize: 14,
-                onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                    _pageController.jumpToPage(_currentIndex);
-                  });
-                },
-              ))
-        ],
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            PageView(
+              controller: _pageController,
+              children: [
+                Container(
+                  color: Colors.blue,
+                ),
+                Container(
+                  color: Colors.yellow,
+                ),
+                Container(
+                  color: Colors.green,
+                ),
+                Container(
+                  color: Colors.red,
+                ),
+              ],
+              physics: NeverScrollableScrollPhysics(),
+            ),
+            Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: BottomNavigationBar(
+                  currentIndex: _currentIndex,
+                  items: listItem,
+                  backgroundColor: Colors.white,
+                  selectedItemColor: Colors.black,
+                  unselectedItemColor: Colors.grey,
+                  type: BottomNavigationBarType.fixed,
+                  selectedFontSize: 14,
+                  unselectedFontSize: 14,
+                  onTap: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                      _pageController.jumpToPage(_currentIndex);
+                    });
+                  },
+                ))
+          ],
+        ),
       ),
     );
+  }
+
+  Future<bool> _onWillPop() async{
+    if(_dateTime==null){
+      _dateTime = DateTime.now();
+      ToastUtil.show("再按一次退出");
+      return false;
+    }else if(DateTime.now().difference(_dateTime!)>Duration(seconds: 1)){
+      _dateTime = DateTime.now();
+      ToastUtil.show("再按一次退出");
+      return false;
+    }else{
+      return true;
+    }
   }
 }
