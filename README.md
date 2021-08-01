@@ -14,3 +14,14 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+
+一、添加启动页
+1、添加依赖
+```
+dev_dependencies:
+  flutter_native_splash: ^1.2.0
+```
+2、在根目录添加flutter_native_splash.yaml，配置按项目里面的写，并配置assets中的图片
+3、执行命令
+`flutter pub run flutter_native_splash:create --path=./flutter_native_splash.yaml`

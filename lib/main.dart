@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'app_init.dart';
+
 void main() {
   runApp(MyApp());
   if(Platform.isAndroid){
+    // 设置Android状态栏
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent
     ));
@@ -30,7 +33,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: GetMaterialApp(child: MyHomePage(title: "title"),),
     );
   }
 }
