@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pan/main_page.dart';
 
 import 'app_init.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: GetMaterialApp(child: MyHomePage(title: "title"),),
+      home: GetMaterialApp(child: MainPage(),),
     );
   }
 }
