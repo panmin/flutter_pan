@@ -9,7 +9,10 @@ class LoadingStateWidget extends StatelessWidget {
   final Function()? retry;
 
   const LoadingStateWidget(
-      {Key? key, required this.loadingSate, required this.child, this.retry})
+      {Key? key,
+      required this.child,
+      this.loadingSate = LoadingSate.loading,
+      this.retry})
       : super(key: key);
 
   @override

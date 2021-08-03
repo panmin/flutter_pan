@@ -3,6 +3,7 @@ import 'package:flutter_pan/common/base/base_change_notifier.dart';
 import 'package:flutter_pan/common/utils/toast.dart';
 import 'package:flutter_pan/common/widget/loading_state_widget.dart';
 import 'package:flutter_pan/common/widget/provider_widget.dart';
+import 'package:flutter_pan/home/home_page.dart';
 
 /// 主页
 /// 相当于Android里面的MainActivity
@@ -43,13 +44,14 @@ class _MainPageState extends State<MainPage> {
         body: PageView(
           controller: _pageController,
           children: [
-            Container(
-              color: Colors.white,
-              child: LoadingStateWidget(
-                loadingSate: LoadingSate.error,
-                child: Text("success"),
-              ),
-            ),
+            // Container(
+            //   color: Colors.white,
+            //   child: LoadingStateWidget(
+            //     loadingSate: LoadingSate.error,
+            //     child: Text("success"),
+            //   ),
+            // ),
+            HomePage(),
             Container(
               color: Colors.yellow,
             ),
