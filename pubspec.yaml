@@ -28,12 +28,18 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+  # 用于toast提示
   fluttertoast: ^8.0.7
+
+  # 用于flutter widget树共享数据
+  provider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # 用于启动页创建
   flutter_native_splash: ^1.2.0
 
 # For information on the generic Dart part of this file, see the

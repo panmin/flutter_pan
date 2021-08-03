@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pan/common/base/base_change_notifier.dart';
 import 'package:flutter_pan/common/utils/toast.dart';
+import 'package:flutter_pan/common/widget/provider_widget.dart';
+import 'package:provider/provider.dart';
 
 /// 主页
 /// 相当于Android里面的MainActivity
@@ -13,8 +16,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   late PageController _pageController;
   late List<BottomNavigationBarItem> listItem;
-
-  int _currentIndex = 0;
 
   DateTime? _dateTime;
 
@@ -39,47 +40,44 @@ class _MainPageState extends State<MainPage> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: Stack(
+        body: PageView(
+          controller: _pageController,
           children: [
-            PageView(
-              controller: _pageController,
-              children: [
-                Container(
-                  color: Colors.blue,
-                ),
-                Container(
-                  color: Colors.yellow,
-                ),
-                Container(
-                  color: Colors.green,
-                ),
-                Container(
-                  color: Colors.red,
-                ),
-              ],
-              physics: NeverScrollableScrollPhysics(),
+            Container(
+              color: Colors.blue,
             ),
-            Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: BottomNavigationBar(
-                  currentIndex: _currentIndex,
-                  items: listItem,
-                  backgroundColor: Colors.white,
-                  selectedItemColor: Colors.black,
-                  unselectedItemColor: Colors.grey,
-                  type: BottomNavigationBarType.fixed,
-                  selectedFontSize: 14,
-                  unselectedFontSize: 14,
-                  onTap: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                      _pageController.jumpToPage(_currentIndex);
-                    });
-                  },
-                ))
+            Container(
+              color: Colors.yellow,
+            ),
+            Container(
+              color: Colors.green,
+            ),
+            Container(
+              color: Colors.red,
+            ),
           ],
+          physics: NeverScrollableScrollPhysics(),
+        ),
+        bottomNavigationBar: ProviderWidget<TabNavigationViewModel>(
+          model: TabNavigationViewModel(),
+          builder: (context,TabNavigationViewModel model,child){
+            return BottomNavigationBar(
+              currentIndex: model.index,
+              items: listItem,
+              backgroundColor: Colors.white,
+              selectedItemColor: Colors.black,
+              unselectedItemColor: Colors.grey,
+              type: BottomNavigationBarType.fixed,
+              selectedFontSize: 14,
+              unselectedFontSize: 14,
+              onTap: (index) {
+                if(model.index!=index) {
+                  _pageController.jumpToPage(index);
+                  model.setBottomBarIndex(index);
+                }
+              },
+            );
+          },
         ),
       ),
     );
@@ -97,5 +95,13 @@ class _MainPageState extends State<MainPage> {
     }else{
       return true;
     }
+  }
+}
+
+class TabNavigationViewModel extends BaseChangeNotifier{
+  int index = 0;
+  void setBottomBarIndex(int index){
+    this.index = index;
+    notifyListeners();
   }
 }
