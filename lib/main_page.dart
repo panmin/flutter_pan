@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pan/common/base/base_change_notifier.dart';
 import 'package:flutter_pan/common/utils/toast.dart';
+import 'package:flutter_pan/common/widget/loading_state_widget.dart';
 import 'package:flutter_pan/common/widget/provider_widget.dart';
-import 'package:provider/provider.dart';
 
 /// 主页
 /// 相当于Android里面的MainActivity
@@ -44,7 +44,11 @@ class _MainPageState extends State<MainPage> {
           controller: _pageController,
           children: [
             Container(
-              color: Colors.blue,
+              color: Colors.white,
+              child: LoadingStateWidget(
+                loadingSate: LoadingSate.error,
+                child: Text("success"),
+              ),
             ),
             Container(
               color: Colors.yellow,
@@ -60,7 +64,7 @@ class _MainPageState extends State<MainPage> {
         ),
         bottomNavigationBar: ProviderWidget<TabNavigationViewModel>(
           model: TabNavigationViewModel(),
-          builder: (context,TabNavigationViewModel model,child){
+          builder: (context, TabNavigationViewModel model, child) {
             return BottomNavigationBar(
               currentIndex: model.index,
               items: listItem,
@@ -71,7 +75,7 @@ class _MainPageState extends State<MainPage> {
               selectedFontSize: 14,
               unselectedFontSize: 14,
               onTap: (index) {
-                if(model.index!=index) {
+                if (model.index != index) {
                   _pageController.jumpToPage(index);
                   model.setBottomBarIndex(index);
                 }
@@ -83,24 +87,25 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Future<bool> _onWillPop() async{
-    if(_dateTime==null){
+  Future<bool> _onWillPop() async {
+    if (_dateTime == null) {
       _dateTime = DateTime.now();
       ToastUtil.show("再按一次退出");
       return false;
-    }else if(DateTime.now().difference(_dateTime!)>Duration(seconds: 1)){
+    } else if (DateTime.now().difference(_dateTime!) > Duration(seconds: 1)) {
       _dateTime = DateTime.now();
       ToastUtil.show("再按一次退出");
       return false;
-    }else{
+    } else {
       return true;
     }
   }
 }
 
-class TabNavigationViewModel extends BaseChangeNotifier{
+class TabNavigationViewModel extends BaseChangeNotifier {
   int index = 0;
-  void setBottomBarIndex(int index){
+
+  void setBottomBarIndex(int index) {
     this.index = index;
     notifyListeners();
   }
