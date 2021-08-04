@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pan/common/base/base_state.dart';
 import 'package:flutter_pan/common/base/base_viewmodel.dart';
@@ -54,7 +55,7 @@ class _HomePageState extends BaseState<HomeViewModel,HomePage>{
 
 class HomeViewModel extends BaseViewModel {
   @override
-  void refresh(){
+  Future refresh() async{
     // Future.delayed(Duration(seconds: 1))
     // .then((value){
     //   // success();
@@ -67,8 +68,15 @@ class HomeViewModel extends BaseViewModel {
     }catch(e){
       throw e;
     }*/
-    Future.delayed(
+    /*Future.delayed(
       Duration(seconds: 2)
-    ).then((value){success();});
+    ).then((value){success();});*/
+    // return await Future((){
+    //
+    //   sleep(Duration(seconds: 3));
+    //   return "网络请求结果";
+    // });
+    await Future.delayed(Duration(seconds: 3));
+    return Future.error("error");
   }
 }
