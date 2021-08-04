@@ -38,6 +38,9 @@ dependencies:
   # 官方网络请求库
   http: ^0.13.3
 
+  # 图片
+  extended_image: ^4.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
