@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_pan/common/base/base_state.dart';
 import 'package:flutter_pan/common/base/base_viewmodel.dart';
 import 'package:flutter_pan/common/widget/loading_state_widget.dart';
 import 'package:flutter_pan/common/widget/provider_widget.dart';
@@ -9,8 +12,22 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+class _HomePageState extends BaseState<HomeViewModel,HomePage>{
+  @override
+  Widget getChild(HomeViewModel model) {
+    return Text("success："+model.loadingSate.index.toString());
+  }
 
-class _HomePageState extends State<HomePage> {
+  @override
+  HomeViewModel get viewModel => HomeViewModel();
+
+  @override
+  String? get title => "首页";
+
+
+
+}
+/*class _HomePageState extends State<HomePage> {
 
   HomeViewModel homeViewModel = new HomeViewModel();
   @override
@@ -21,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: ProviderWidget(
         model: homeViewModel,
         builder: (context, HomeViewModel model, child) {
@@ -32,15 +50,25 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
+}*/
 
 class HomeViewModel extends BaseViewModel {
   @override
   void refresh(){
-    Future.delayed(Duration(seconds: 5))
-    .then((value){
-      loadingSate = LoadingSate.done;
-      notifyListeners();
-    });
+    // Future.delayed(Duration(seconds: 1))
+    // .then((value){
+    //   // success();
+    //   error();
+    // });
+    //
+    /*try {
+      List<int> list = [1, 2];
+      list[2].toString();
+    }catch(e){
+      throw e;
+    }*/
+    Future.delayed(
+      Duration(seconds: 2)
+    ).then((value){success();});
   }
 }
