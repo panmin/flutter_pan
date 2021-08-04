@@ -35,6 +35,9 @@ dependencies:
   # 用于flutter widget树共享数据
   provider: ^5.0.0
 
+  # 官方网络请求库
+  http: ^0.13.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
