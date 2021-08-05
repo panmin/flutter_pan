@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pan/main_page.dart';
@@ -8,7 +9,9 @@ import 'app_init.dart';
 
 void main() {
   runApp(MyApp());
-  if(Platform.isAndroid){
+
+  // if(Platform.isAndroid){ //web运行时不支持这种写法
+  if(defaultTargetPlatform == TargetPlatform.android){
     // 设置Android状态栏
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
         statusBarColor: Colors.transparent

@@ -18,10 +18,10 @@ class HomeModel {
   dynamic? get dialog => _dialog;
 
   HomeModel({
-      List<IssueList>? issueList, 
-      String? nextPageUrl, 
-      int? nextPublishTime, 
-      String? newestIssueType, 
+      List<IssueList>? issueList,
+      String? nextPageUrl,
+      int? nextPublishTime,
+      String? newestIssueType,
       dynamic? dialog}){
     _issueList = issueList;
     _nextPageUrl = nextPageUrl;
@@ -80,11 +80,11 @@ class IssueList {
   int? get count => _count;
 
   IssueList({
-      int? releaseTime, 
-      String? type, 
-      int? date, 
-      int? publishTime, 
-      List<ItemList>? itemList, 
+      int? releaseTime,
+      String? type,
+      int? date,
+      int? publishTime,
+      List<ItemList>? itemList,
       int? count}){
     _releaseTime = releaseTime;
     _type = type;
@@ -146,11 +146,11 @@ class ItemList {
   int? get adIndex => _adIndex;
 
   ItemList({
-      String? type, 
-      Data? data, 
-      dynamic? trackingData, 
-      dynamic? tag, 
-      int? id, 
+      String? type,
+      Data? data,
+      dynamic? trackingData,
+      dynamic? tag,
+      int? id,
       int? adIndex}){
     _type = type;
     _data = data;
@@ -210,6 +210,7 @@ class Data {
   dynamic? _labelList;
   dynamic? _header;
   bool? _autoPlay;
+  Cover? _cover;
 
   String? get dataType => _dataType;
   int? get id => _id;
@@ -223,20 +224,23 @@ class Data {
   dynamic? get labelList => _labelList;
   dynamic? get header => _header;
   bool? get autoPlay => _autoPlay;
+  Cover? get cover => _cover;
 
   Data({
-      String? dataType, 
-      int? id, 
-      String? title, 
-      String? description, 
-      String? image, 
-      String? actionUrl, 
-      dynamic? adTrack, 
-      bool? shade, 
-      dynamic? label, 
-      dynamic? labelList, 
-      dynamic? header, 
-      bool? autoPlay}){
+      String? dataType,
+      int? id,
+      String? title,
+      String? description,
+      String? image,
+      String? actionUrl,
+      dynamic? adTrack,
+      bool? shade,
+      dynamic? label,
+      dynamic? labelList,
+      dynamic? header,
+      bool? autoPlay,
+    Cover? cover
+  }){
     _dataType = dataType;
     _id = id;
     _title = title;
@@ -249,6 +253,7 @@ class Data {
     _labelList = labelList;
     _header = header;
     _autoPlay = autoPlay;
+    _cover = cover;
 }
 
   Data.fromJson(dynamic json) {
@@ -264,6 +269,7 @@ class Data {
     _labelList = json['labelList'];
     _header = json['header'];
     _autoPlay = json['autoPlay'];
+    _cover = json['cover'] != null ? Cover.fromJson(json['cover']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -280,6 +286,52 @@ class Data {
     map['labelList'] = _labelList;
     map['header'] = _header;
     map['autoPlay'] = _autoPlay;
+    map['cover'] = _cover;
+    return map;
+  }
+
+}
+class Cover {
+  String? _feed;
+  String? _detail;
+  String? _blurred;
+  dynamic? _sharing;
+  String? _homepage;
+
+  String? get feed => _feed;
+  String? get detail => _detail;
+  String? get blurred => _blurred;
+  dynamic? get sharing => _sharing;
+  String? get homepage => _homepage;
+
+  Cover({
+    String? feed,
+    String? detail,
+    String? blurred,
+    dynamic? sharing,
+    String? homepage}){
+    _feed = feed;
+    _detail = detail;
+    _blurred = blurred;
+    _sharing = sharing;
+    _homepage = homepage;
+  }
+
+  Cover.fromJson(dynamic json) {
+    _feed = json['feed'];
+    _detail = json['detail'];
+    _blurred = json['blurred'];
+    _sharing = json['sharing'];
+    _homepage = json['homepage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    var map = <String, dynamic>{};
+    map['feed'] = _feed;
+    map['detail'] = _detail;
+    map['blurred'] = _blurred;
+    map['sharing'] = _sharing;
+    map['homepage'] = _homepage;
     return map;
   }
 
