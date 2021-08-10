@@ -4,10 +4,12 @@ import 'package:flutter_pan/common/base/base_pull_refresh_state.dart';
 import 'package:flutter_pan/common/base/base_viewmodel.dart';
 import 'package:flutter_pan/common/http/Url.dart';
 import 'package:flutter_pan/common/http/http_manager.dart';
+import 'package:flutter_pan/common/router/router_manager.dart';
 import 'package:flutter_pan/common/utils/cache_image.dart';
 import 'package:flutter_pan/common/utils/date_util.dart';
 import 'package:flutter_pan/common/widget/banner_widget.dart';
 import 'package:flutter_pan/home/home_model.dart';
+import 'package:flutter_pan/video_detail/video_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -96,7 +98,10 @@ class _HomePageState extends BasePullRefreshState<HomeViewModel, HomePage> {
       // ClipRRect:对子组件进行圆角裁剪
       child: ClipRRect(
         borderRadius: BorderRadius.circular(4),
-        child: BannerWidget(banners: model.listBanner),
+        child: BannerWidget(banners: model.listBanner,onItemTap: (index){
+          print("点击了$index");
+          RouterManager.toPage(VideoDetailPage());
+        },),
       ),
     );
   }

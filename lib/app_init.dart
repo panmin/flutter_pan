@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pan/splash/splash.dart';
+import 'package:get/get.dart';
 
-class GetMaterialApp extends StatelessWidget {
+class GetMaterialAppWidget extends StatelessWidget {
   final Widget child;
 
-  const GetMaterialApp({Key? key, required this.child}) : super(key: key);
+  const GetMaterialAppWidget({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class GetMaterialApp extends StatelessWidget {
               home: Splash()
             );
           } else {
-            return MaterialApp(home: child);
+            return GetMaterialApp(home: child);
           }
         });
   }

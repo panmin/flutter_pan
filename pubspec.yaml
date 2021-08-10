@@ -51,6 +51,9 @@ dependencies:
   # 常用util工具类
   flustars: ^2.0.1
 
+  # 使用get的路由功能
+  get: ^4.3.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

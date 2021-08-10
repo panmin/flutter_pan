@@ -6,8 +6,9 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 class BannerWidget extends StatefulWidget {
   final List<BannerModel> banners;
+  final SwiperOnTap? onItemTap;
 
-  const BannerWidget({Key? key, required this.banners}) : super(key: key);
+  const BannerWidget({Key? key, required this.banners, this.onItemTap}) : super(key: key);
 
   @override
   _BannerWidgetState createState() => _BannerWidgetState();
@@ -53,11 +54,7 @@ class _BannerWidgetState extends State<BannerWidget> {
             ],
           );
         },
-        onTap: (index) {
-          print("点击了banner图。。$index}");
-          // TODO：跳转 detail
-          // toNamed("/detail", model.bannerList[index].data);
-        },
+        onTap: widget.onItemTap,
         // banner 指示器
         pagination: new SwiperPagination(
           // 位置：右下角
