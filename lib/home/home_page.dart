@@ -31,34 +31,40 @@ class _HomePageState extends BasePullRefreshState<HomeViewModel, HomePage> {
             return _banner(model);
           }
           var data = model.listModel[index].data;
-          if(model.listModel[index].type == "textHeader"){
+          if (model.listModel[index].type == "textHeader") {
             return Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: Center(child: Text(data?.text??"",style: TextStyle(fontSize: 16,fontFamily: data?.font,fontWeight: FontWeight.bold),)),
+              height: 20,
+              margin: const EdgeInsets.only(top: 20),
+              child: Center(
+                  child: Text(
+                data?.text ?? "",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: data?.font,
+                    fontWeight: FontWeight.bold),
+              )),
             );
           }
 
           return Column(
-            children: [
-              _ItemImage(data),
-              // _author(data)
-            ],
+            children: [_itemImage(data), _author(data)],
           );
         },
         separatorBuilder: (BuildContext context, int index) {
           return SizedBox(
-            height: 20,
+            height: 8,
+            child: model.listModel[index].type=="video"?Divider(height: 1,):null,
           );
         },
         itemCount: model.listModel.length);
   }
 
-  Widget _ItemImage(Data? data){
+  Widget _itemImage(Data? data) {
     return Stack(
       children: [
         Container(
           height: 200,
-          padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+          padding: EdgeInsets.only(left: 15, top: 10, right: 15),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(4),
             child: cacheImage(data?.cover?.feed ?? "",
@@ -69,14 +75,13 @@ class _HomePageState extends BasePullRefreshState<HomeViewModel, HomePage> {
             right: 25,
             bottom: 10,
             child: Container(
-              padding:
-              const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: Colors.white38,
               ),
               child: Text(
-                formatDateMsByMS((data?.duration??0)*1000),
+                formatDateMsByMS((data?.duration ?? 0) * 1000),
                 style: TextStyle(color: Colors.black, fontSize: 10),
               ),
             ))
@@ -95,15 +100,42 @@ class _HomePageState extends BasePullRefreshState<HomeViewModel, HomePage> {
       ),
     );
   }
-  
+
   Widget _author(Data? data) {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(40),
-          child: cacheImage(data?.header),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(40),
+            child: cacheImage(data?.author?.icon ?? "", width: 30, height: 30),
+          ),
+          Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                Text(
+                  data?.author?.name ?? "",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+                SizedBox(height: 3,),
+                Text(
+                  data?.author?.description ?? "",
+                  style: TextStyle(fontSize: 10, color: Colors.grey),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+            ],
+          ),
+              )),
+          IconButton(onPressed: (){}, icon: Icon(Icons.share,size: 20,))
+        ],
+      ),
     );
   }
 }
@@ -120,7 +152,8 @@ class HomeViewModel extends BaseViewModel {
     HomeModel homeModel = HomeModel.fromJson(result);
     var list = homeModel.issueList?[0].itemList;
     list?.removeWhere((element) => element.type == "banner2");
-    nextUrl = (homeModel.nextPageUrl ?? "").replaceAll("http://baobab.kaiyanapp.com", "http://localhost:4500");
+    nextUrl = (homeModel.nextPageUrl ??
+        ""); //.replaceAll("http://baobab.kaiyanapp.com", "http://localhost:4500");
     if (list != null) {
       listBanner.clear();
       list.forEach((item) {
@@ -141,8 +174,9 @@ class HomeViewModel extends BaseViewModel {
       var result = await HttpManager.get(nextUrl);
       HomeModel homeModel = HomeModel.fromJson(result);
       var list = homeModel.issueList?[0].itemList;
-      // list?.removeWhere((element) => element.type == "TextHeader");
-      nextUrl = (homeModel.nextPageUrl ?? "").replaceAll("http://baobab.kaiyanapp.com", "http://localhost:4500");
+      list?.removeWhere((element) => element.type == "banner2");
+      nextUrl = (homeModel.nextPageUrl ??
+          ""); //.replaceAll("http://baobab.kaiyanapp.com", "http://localhost:4500");
       print(nextUrl);
       if (list != null) {
         listModel.addAll(list);
