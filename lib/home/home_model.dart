@@ -211,6 +211,9 @@ class Data {
   dynamic? _header;
   bool? _autoPlay;
   Cover? _cover;
+  int? _duration;
+  String? _text;
+  String? _font;
 
   String? get dataType => _dataType;
   int? get id => _id;
@@ -225,6 +228,9 @@ class Data {
   dynamic? get header => _header;
   bool? get autoPlay => _autoPlay;
   Cover? get cover => _cover;
+  int? get duration => _duration;
+  String? get text => _text;
+  String? get font => _font;
 
   Data({
       String? dataType,
@@ -239,7 +245,10 @@ class Data {
       dynamic? labelList,
       dynamic? header,
       bool? autoPlay,
-    Cover? cover
+    Cover? cover,
+    int? duration,
+    String? text,
+    String? font
   }){
     _dataType = dataType;
     _id = id;
@@ -254,6 +263,9 @@ class Data {
     _header = header;
     _autoPlay = autoPlay;
     _cover = cover;
+    _duration = duration;
+    _text = text;
+    _font = font;
 }
 
   Data.fromJson(dynamic json) {
@@ -269,6 +281,9 @@ class Data {
     _labelList = json['labelList'];
     _header = json['header'];
     _autoPlay = json['autoPlay'];
+    _duration = json['duration'];
+    _text = json['text'];
+    _font = json['font'];
     _cover = json['cover'] != null ? Cover.fromJson(json['cover']) : null;
   }
 
@@ -287,6 +302,9 @@ class Data {
     map['header'] = _header;
     map['autoPlay'] = _autoPlay;
     map['cover'] = _cover;
+    map['duration'] = _duration;
+    map['text'] = _text;
+    map['font'] = _font;
     return map;
   }
 

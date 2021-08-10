@@ -48,6 +48,9 @@ dependencies:
 #  flutter_swiper : ^1.1.6
   flutter_swiper_null_safety: ^1.0.2
 
+  # 常用util工具类
+  flustars: ^2.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -5,6 +5,7 @@ appBar(String title,
     List<Widget>? actions,
     PreferredSizeWidget? bottom}) {
   return AppBar(
+    backgroundColor: Colors.white,
     leading: showBack ? BackButton(color: Colors.black) : null,
     elevation: 0,
     title: Text(title,
