@@ -54,6 +54,10 @@ dependencies:
   # 使用get的路由功能
   get: ^4.3.6
 
+  #视频相关库
+  video_player: ^2.1.12
+  chewie: ^1.2.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -62,32 +62,37 @@ class _HomePageState extends BasePullRefreshState<HomeViewModel, HomePage> {
   }
 
   Widget _itemImage(Data? data) {
-    return Stack(
-      children: [
-        Container(
-          height: 200,
-          padding: EdgeInsets.only(left: 15, top: 10, right: 15),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: cacheImage(data?.cover?.feed ?? "",
-                width: MediaQuery.of(context).size.width, height: 200),
+    return GestureDetector(
+      onTap: (){
+        RouterManager.toPage(VideoDetailPage(url: data?.playUrl??"",detailId: data?.id.toString()??"",));
+      },
+      child: Stack(
+        children: [
+          Container(
+            height: 200,
+            padding: EdgeInsets.only(left: 15, top: 10, right: 15),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: cacheImage(data?.cover?.feed ?? "",
+                  width: MediaQuery.of(context).size.width, height: 200),
+            ),
           ),
-        ),
-        Positioned(
-            right: 25,
-            bottom: 10,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Colors.white38,
-              ),
-              child: Text(
-                formatDateMsByMS((data?.duration ?? 0) * 1000),
-                style: TextStyle(color: Colors.black, fontSize: 10),
-              ),
-            ))
-      ],
+          Positioned(
+              right: 25,
+              bottom: 10,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white38,
+                ),
+                child: Text(
+                  formatDateMsByMS((data?.duration ?? 0) * 1000),
+                  style: TextStyle(color: Colors.black, fontSize: 10),
+                ),
+              ))
+        ],
+      ),
     );
   }
 
@@ -100,7 +105,7 @@ class _HomePageState extends BasePullRefreshState<HomeViewModel, HomePage> {
         borderRadius: BorderRadius.circular(4),
         child: BannerWidget(banners: model.listBanner,onItemTap: (index){
           print("点击了$index");
-          RouterManager.toPage(VideoDetailPage());
+          // RouterManager.toPage(VideoDetailPage(,));
         },),
       ),
     );
