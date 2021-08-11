@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_pan/common/base/base_state.dart';
 import 'package:flutter_pan/common/widget/video_player_widget.dart';
 import 'package:flutter_pan/video_detail/video_detail_viewmodel.dart';
@@ -25,10 +26,13 @@ class _VideoDetailPageState
 
   @override
   Widget getChild(VideoDetailViewModel model) {
-    return Container(
-      child: Center(
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: Container(
         child: VideoPlayerWidget(
           url: widget.url,
+          videoTopBarMarginTop: MediaQuery.of(context).padding.top,
         ),
       ),
     );
