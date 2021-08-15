@@ -29,7 +29,8 @@ class _VideoDetailPageState
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
-      child: Container(
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
         child: VideoPlayerWidget(
           url: widget.url,
           videoTopBarMarginTop: MediaQuery.of(context).padding.top,

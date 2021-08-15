@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:chewie/chewie.dart';
 import 'package:chewie/src/material/material_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_pan/common/utils/date_util.dart';
 import 'package:video_player/video_player.dart';
 
@@ -49,6 +50,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   void initState() {
+    if (widget.videoTopBarMarginTop > 0) {
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    }
     super.initState();
     initializePlayer();
   }
@@ -68,6 +72,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         customControls: VideoPlayerControlsWidget(
           overlayUI: _videoPlayTopBar(),
           bottomGradient: _blackLinearGradient(),
+          videoTopBarMarginTop: widget.videoTopBarMarginTop,
         ));
     setState(() {});
   }
@@ -81,11 +86,11 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     return Container(
       width: width,
       height: height,
-      child: isInitialized?
-          Chewie(controller: _cheWieController!)
-          :Container(
-            color: Colors.black,
-            child: Column(
+      child: isInitialized
+          ? Chewie(controller: _cheWieController!)
+          : Container(
+              color: Colors.black,
+              child: Column(
                 children: [
                   _videoPlayTopBar(),
                   Padding(
@@ -96,7 +101,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   )
                 ],
               ),
-          ),
+            ),
     );
   }
 
@@ -136,6 +141,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   void dispose() {
     _cheWieController?.dispose();
     _videoPlayerController?.dispose();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     super.dispose();
   }
 
@@ -161,12 +167,16 @@ class VideoPlayerControlsWidget extends StatefulWidget {
   // 底层控制栏的背景色：一般设为渐变色
   final Gradient bottomGradient;
 
+  // 视频播放的导航栏距离顶部的高度
+  final double videoTopBarMarginTop;
+
   const VideoPlayerControlsWidget(
       {Key? key,
       required this.overlayUI,
       required this.bottomGradient,
       this.showLoadingOnInitialize = true,
-      this.showBigPlayIcon = true})
+      this.showBigPlayIcon = true,
+      this.videoTopBarMarginTop = 0})
       : super(key: key);
 
   @override
@@ -363,7 +373,7 @@ class _VideoPlayerControlsWidgetState extends State<VideoPlayerControlsWidget>
               duration: const Duration(milliseconds: 300),
               // 中间播放按钮,showBigPlayIcon:是否显示大播放按钮
               child: widget.showBigPlayIcon == true
-                  ? _palyPauseButton(isFinished)
+                  ? _playPauseButton(isFinished)
                   : Container(),
             ),
           ),
@@ -373,33 +383,29 @@ class _VideoPlayerControlsWidgetState extends State<VideoPlayerControlsWidget>
   }
 
   /// 播放、暂停、重播按钮
-  Widget _palyPauseButton(isFinished) {
+  Widget _playPauseButton(isFinished) {
     return GestureDetector(
       child: Container(
+        margin: EdgeInsets.only(top: widget.videoTopBarMarginTop),
         decoration: BoxDecoration(
           color: Theme.of(context).dialogBackgroundColor,
           borderRadius: BorderRadius.circular(48.0),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Material(
-            child: IconButton(
-              icon: isFinished
-                  ? const Icon(Icons.replay, size: 32.0)
-                  // AnimatedIcon:动画图标
-                  : AnimatedIcon(
-                      // 播放到暂停的动画图标
-                      icon: AnimatedIcons.play_pause,
-                      // 设置图标的动画
-                      progress: playPauseIconAnimationController!,
-                      size: 32.0,
-                    ),
-              onPressed: () {
-                // 开始播放或暂停
-                _playPause();
-              },
-            ),
-          ),
+        child: IconButton(
+          icon: isFinished
+              ? const Icon(Icons.replay, size: 32.0)
+              // AnimatedIcon:动画图标
+              : AnimatedIcon(
+                  // 播放到暂停的动画图标
+                  icon: AnimatedIcons.play_pause,
+                  // 设置图标的动画
+                  progress: playPauseIconAnimationController!,
+                  size: 32.0,
+                ),
+          onPressed: () {
+            // 开始播放或暂停
+            _playPause();
+          },
         ),
       ),
     );
@@ -653,7 +659,6 @@ class _VideoPlayerControlsWidgetState extends State<VideoPlayerControlsWidget>
     }
     setState(() {
       _hideStuff = true;
-
       // 切换全屏
       _chewieController?.toggleFullScreen();
       _showAfterExpandCollapseTimer =
@@ -673,6 +678,10 @@ class _VideoPlayerControlsWidgetState extends State<VideoPlayerControlsWidget>
     setState(() {
       _hideStuff = false;
       _displayTapped = true;
+      if (widget.videoTopBarMarginTop > 0 &&
+          _chewieController?.isFullScreen == false) {
+        SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+      }
     });
   }
 
@@ -681,6 +690,10 @@ class _VideoPlayerControlsWidgetState extends State<VideoPlayerControlsWidget>
     _hideTimer = Timer(const Duration(seconds: 3), () {
       setState(() {
         _hideStuff = true;
+        if (widget.videoTopBarMarginTop > 0 &&
+            _chewieController?.isFullScreen == false) {
+          SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+        }
       });
     });
   }
