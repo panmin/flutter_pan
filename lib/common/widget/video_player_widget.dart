@@ -41,10 +41,10 @@ class VideoPlayerWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+  VideoPlayerWidgetState createState() => VideoPlayerWidgetState();
 }
 
-class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   VideoPlayerController? _videoPlayerController;
   ChewieController? _cheWieController;
 
