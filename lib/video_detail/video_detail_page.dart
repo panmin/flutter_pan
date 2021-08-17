@@ -64,11 +64,7 @@ class _VideoDetailPageState
               url: widget.url,
               videoTopBarMarginTop: MediaQuery.of(context).padding.top,
             ),
-            ProviderWidget<VideoDetailViewModel>(
-                model: viewModel,
-                builder: (context, VideoDetailViewModel model, child) {
-                  return _videoInfoWidget(model.currentInfo);
-                })
+            _videoInfoWidget(model.currentInfo)
           ],
         ),
       ),
@@ -80,11 +76,11 @@ class _VideoDetailPageState
     if (data == null) {
       return SizedBox();
     }
-    print(data.cover?.toJson());
     return Expanded(
       child: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
+                fit: BoxFit.cover,
                   image: cachedNetworkImageProvider('${data.cover?.blurred}}/thumbnail/${MediaQuery.of(context).size.height}x${MediaQuery.of(context).size.width}'))),
           child: CustomScrollView(
             slivers: [
